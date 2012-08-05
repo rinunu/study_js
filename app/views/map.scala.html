@@ -1,0 +1,89 @@
+<!-- JavaScript グラフィクスより
+
+タイルベース画像のスクロール
+
+iPhone だとつらいですね。。
+
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>タイルベース画像のスクロール</title>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+    </script>
+    <script type="text/javascript"
+            src="/assets/javascripts/tilescroller.js"></script>
+
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #viewports {
+            position: absolute;
+            border: 4px solid #000;
+            background-color: #3090c7;
+            width: 800px;
+            height: 1000px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            loadMap('/assets/etc/map1.tmx', '/assets/images', $('#viewports'),
+                    function (tileScrollers) {
+                        var ts1 = tileScrollers[0],
+                                ts2 = tileScrollers[1],
+                                ts3 = tileScrollers[2],
+                                scrollX = 0,
+                                scrollY = 0,
+                                xSpeed = 0,
+                                ySpeed = 0,
+                                viewWidth = $('#viewports').innerWidth(),
+                                viewHeight = $('#viewports').innerHeight();
+
+                        $('#viewports').mousedown(function (ev) {
+                            xSpeed = ev.clientX - (viewWidth / 2);
+                            xSpeed /= (viewWidth / 2);
+                            xSpeed *= 10;
+
+                            ySpeed = ev.clientY - (viewHeight / 2);
+                            ySpeed /= (viewHeight / 2);
+                            ySpeed *= 10;
+                        });
+
+                        setInterval(function () {
+                            // 視差効果のために、スクロール速度を変える
+                            ts1.draw(scrollX / 3, scrollY / 3);
+                            ts2.draw(scrollX / 2, scrollY / 2);
+                            ts3.draw(scrollX, scrollY);
+                            scrollX += xSpeed;
+                            scrollY += ySpeed;
+
+                            // マップ端でスクロールを停止する。
+                            if (scrollX < 0) {
+                                scrollX = 0;
+                            }
+                            if (scrollX > ts3.mapWidthPixels - viewWidth) {
+                                scrollX = ts3.mapWidthPixels - viewWidth;
+                            }
+                            if (scrollY < 0) {
+                                scrollY = 0;
+                            }
+                            if (scrollY > ts3.mapHeightPixels - viewHeight) {
+                                scrollY = ts3.mapHeightPixels - viewHeight;
+                            }
+                        }, 30);
+                    });
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewports"></div>
+</body>
+
+</html>

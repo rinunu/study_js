@@ -2,5 +2,6 @@ GET   /test1          controllers.Test.test1
 GET   /test2          controllers.Test.test2
 GET   /test3          controllers.Test.test3
 GET   /test4          controllers.Test.test4
+GET   /test5          controllers.Test.test5
 
 GET /assets/*file   controllers.Assets.at(path="/public", file)
