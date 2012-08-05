@@ -1,0 +1,7 @@
+/.idea/
+/.idea_modules/
+/project/target/
+/scjsc_src/
+/target/
+/project/project/target/
+/logs/application.log

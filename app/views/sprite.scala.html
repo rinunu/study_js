@@ -1,0 +1,45 @@
+<!-- JavaScript グラフィクスより -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>スプライトのnoデモ</title>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+    </script>
+
+    <script type="text/javascript"
+            src="/assets/javascripts/dhtmlsprite.js"></script>
+
+    <style type="text/css">
+        #draw-target {
+            width: 480px;
+            height: 320px;
+            background-color: #ccf;
+            position: relative;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var params = {
+                images: '/assets/images/cogs.png',
+                imagesWidth: 256,
+                width: 64,
+                height: 64,
+                $drawTarget: $('#draw-target')
+            };
+            var sprite1 = DHTMLSprite(params);
+            var sprite2 = DHTMLSprite(params);
+            sprite2.changeImage(5);
+            sprite1.draw(64, 64);
+            sprite2.draw(352, 192);
+        });
+    </script>
+</head>
+
+<body>
+<div id="draw-target">
+</div>
+</body>
+
+</html>
