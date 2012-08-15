@@ -14,11 +14,12 @@
 var DHTMLSprite = function (params) {
     var width = params.width,
         height = params.height,
-        imagesWidth = params.imagesWidth,
-        $element = params.$drawTarget.append('<div/>').find(':last'),
+        imagesWidth = params.imagesWidth;
+
+    var $element = params.$drawTarget.append('<div/>').find(':last');
+
     // 高速化のために
-        elemStyle = $element[0].style,
-    // 高速化のために
+    var elemStyle = $element[0].style,
         mathFloor = Math.floor;
 
     $element.css({

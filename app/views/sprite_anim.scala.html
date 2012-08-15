@@ -9,7 +9,10 @@
     </script>
 
     <script type="text/javascript"
-            src="/assets/javascripts/dhtmlsprite.js"></script>
+            src="/assets/javascripts/dhtmlSprite.js"></script>
+
+    <script type="text/javascript"
+            src="/assets/javascripts/timeInfo.js"></script>
 
     <style type="text/css">
         #draw-target {
@@ -31,13 +34,14 @@
                     animIndex = 0,
                     that = DHTMLSprite(params);
 
-            that.moveAndDraw = function () {
-                x += xDir;
-                y += yDir;
-                animIndex += xDir > 0 ? 1 : -1;
+            that.moveAndDraw = function (tCoeff) {
+                x += xDir * tCoeff;
+                y += yDir * tCoeff;
+                animIndex += (xDir > 0 ? 1 : -1) * tCoeff;
 
-                animIndex %= 5;
-                animIndex += animIndex < 0 ? 5 : 0;
+                var animIndex2 = (animIndex % 5) >> 0;
+                animIndex2 += animIndex2 < 0 ? 5 : 0;
+
                 if ((xDir < 0 && x < 0) || (xDir > 0 && x >= maxX)) {
                     xDir = -xDir;
                 }
@@ -45,14 +49,16 @@
                     yDir = -yDir;
                 }
 
-                that.changeImage(animIndex);
+                that.changeImage(animIndex2);
                 that.draw(x, y);
             }
             return that;
         };
 
         var bouncyBoss = function (numBouncy, $drawTarget) {
-            var bouncys = [];
+            var bouncys = [],
+                    timer = timeInfo(40);
+
             for (var i = 0; i < numBouncy; i++) {
                 bouncys.push(bouncySprite({
                     images: '/assets/images/cogs.png',
@@ -70,10 +76,11 @@
             }
 
             var moveAll = function () {
+                var timeData = timer.getInfo();
                 var len = bouncys.length;
                 for (var i = 0; i < len; i++) {
                     console.log(len);
-                    bouncys[i].moveAndDraw();
+                    bouncys[i].moveAndDraw(timeData.coeff);
                 }
                 setTimeout(moveAll, 10);
             }
